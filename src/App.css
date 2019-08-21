@@ -1,0 +1,27 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --border-color: grey;
+  --cell-color: lightgreen;
+  --cell-hover-color: #b2fab4;
+}
+
+html,
+body,
+#root,
+.app {
+  height: 100%;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  color: var(--border-color);
+}

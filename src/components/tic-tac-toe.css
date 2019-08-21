@@ -1,0 +1,56 @@
+.board {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  margin-top: 40px;
+}
+
+/**
+* Referred to the online resource
+* https://css-tricks.com/table-borders-inside/
+*/
+table {
+  border-collapse: collapse;
+  border-spacing: 0px;
+}
+
+table td {
+  width: 100px;
+  height: 100px;
+  background: var(--cell-color);
+  border: 5px solid var(--border-color);
+  color: var(--border-color);
+  user-select: none;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+table td.empty:hover {
+  background: var(--cell-hover-color);
+  cursor: pointer;
+}
+
+.result {
+  display: inline-block;
+  height: 30px;
+  margin-top: 20px;
+  font-size: 25px;
+  font-weight: bold;
+  color: var(--border-color);
+}
+
+button {
+  margin-top: 20px;
+  width: 100px;
+  height: 50px;
+  font-size: 18px;
+  border: 5px solid var(--border-color);
+  color: var(--border-color);
+  font-weight: bold;
+}
+
+button:hover {
+  background: lightgrey;
+}
