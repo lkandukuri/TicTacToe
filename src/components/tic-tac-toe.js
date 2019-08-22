@@ -1,9 +1,9 @@
 import React from "react";
 import "./tic-tac-toe.css";
 
-const X = "X";
-const O = "0";
-const DRAW = "Draw";
+export const X = "X";
+export const O = "0";
+export const DRAW = "Draw";
 
 export default class TicTacToe extends React.Component {
   constructor(props) {
@@ -19,6 +19,15 @@ export default class TicTacToe extends React.Component {
     this.init();
   }
 
+  // static getDerivedStateFromProps(props, state) {
+  //   if ()
+  // }
+  componentDidUpdate(prevProps) {
+    if (prevProps.size !== this.props.size) {
+      this.resetHandler();
+    }
+  }
+
   init = () => {
     const { size } = this.props;
     //declaring an instance variable to maintain the next turn X or O
@@ -31,10 +40,18 @@ export default class TicTacToe extends React.Component {
     this.setState({ grid, result: null });
   };
 
+  resetHandler = () => {
+    this.init();
+    const { reset } = this.props;
+    if (reset) {
+      reset();
+    }
+  };
+
   cellClickHandler = event => {
     const { grid, result } = this.state;
-    const { size } = this.props;
-    const { row, col } = event.target.dataset;
+    const { size, resultHandler } = this.props;
+    let { row, col } = event.target.dataset;
 
     /**
      * Tic-tac-toe cells have row and col data props. If the row and col values are undefined
@@ -42,6 +59,9 @@ export default class TicTacToe extends React.Component {
      */
     if (!row || !col) {
       return;
+    } else {
+      row = parseInt(row);
+      col = parseInt(col);
     }
     /**
      * If grid[row][col] already contains either X or O then simply return
@@ -65,20 +85,23 @@ export default class TicTacToe extends React.Component {
       grid: newGrid
     });
 
+    let currentResult;
     /**
      * winning case - Check the row and the column corresponding to the cell that was
      * clicked and the diagonals as this reduces time complexity to O(N) rather than checking
      * the entire grid which increases the time complexity to O(N^2)
      * */
     if (this.checkWinner(newGrid, row, col, size)) {
-      this.setState({
-        result: newGrid[row][col]
-      });
+      currentResult = newGrid[row][col];
     } else if (this.count === size * size) {
       //draw case
-      this.setState({
-        result: DRAW
-      });
+      currentResult = DRAW;
+    }
+    this.setState({
+      result: currentResult
+    });
+    if (resultHandler) {
+      resultHandler(currentResult);
     }
   };
 
@@ -157,14 +180,10 @@ export default class TicTacToe extends React.Component {
 
   render() {
     const { grid, result } = this.state;
-    let resultText = null;
-    if (result === DRAW) {
-      resultText = "The game is a Draw";
-    } else if (result === X || result === O) {
-      resultText = `'${result}' has won the game`;
-    }
+
     return (
       <div className="board">
+        <button onClick={this.resetHandler}>Restart</button>
         <table onClick={this.cellClickHandler}>
           <tbody>
             {grid.map((row, rowIndex) => {
@@ -189,8 +208,6 @@ export default class TicTacToe extends React.Component {
             })}
           </tbody>
         </table>
-        <div className="result">{resultText}</div>
-        <button onClick={this.init}>Restart</button>
       </div>
     );
   }

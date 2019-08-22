@@ -12,7 +12,7 @@ html,
 body,
 #root,
 .app {
-  height: 100%;
+  min-height: 100%;
 }
 
 .app {
@@ -20,6 +20,17 @@ body,
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding-bottom: 50px;
+}
+
+select {
+  margin-top: 20px;
+  width: 100px;
+  height: 50px;
+  font-size: 18px;
+  border: 5px solid var(--border-color);
+  color: var(--border-color);
+  font-weight: bold;
 }
 
 .title {
